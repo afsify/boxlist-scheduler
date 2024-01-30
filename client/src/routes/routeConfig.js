@@ -1,5 +1,9 @@
 export const userPath = {
-  login: "login",
-  signup: "signup",
   home: "/",
+  login: "/login",
+  register: "/register",
+  resetOTP: "/reset-otp",
+  registerOTP: "/register-otp",
+  resetPassword: "/reset-password",
+  forgotPassword: "/forgot-password",
 };
