@@ -7,7 +7,7 @@ export default {
         signature: ["Cabin"],
       },
       colors: {
-        "dark-purple": "#314573",
+        "pine-green": "#01796F",
         "light-dark": "#151415",
         "medium-dark": "#0E0E0E",
         "light-gray": "#1f1f1f",

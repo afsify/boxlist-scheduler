@@ -103,7 +103,7 @@ const verifyOTP = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    const { name, email, password, exp, image } = req.body;
+    const { name, email, password, exp } = req.body;
     const userData = await userModel.findOne({ email });
     if (exp && userData === null) {
       const hashPassword = await bcrypt.hash(password, 10);
@@ -112,7 +112,6 @@ const login = async (req, res, next) => {
           name: name,
           email: email,
           password: hashPassword,
-          image: image ? image : undefined,
         })
         .then(async () => {
           let userData = await userModel.findOne({ email: email });

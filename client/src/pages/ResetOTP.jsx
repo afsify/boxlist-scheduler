@@ -91,8 +91,8 @@ function ResetOTP() {
 
   return (
     <AuthCard>
-      <h2 className="font-bold text-3xl text-dark-purple">Verification</h2>
-      <p className="text-sm mt-3 text-dark-purple">
+      <h2 className="font-bold text-3xl text-pine-green">Verification</h2>
+      <p className="text-sm mt-3 text-pine-green">
         OTP has been sent via email to{" "}
         <span className="font-semibold">{email}</span>
       </p>
@@ -107,7 +107,7 @@ function ResetOTP() {
         <p className="text-center text-sm">OR</p>
         <hr className="border-gray-400" />
       </div>
-      <div className="mt-3 text-sm flex justify-center items-center text-dark-purple py-4">
+      <div className="mt-3 text-sm flex justify-center items-center text-pine-green py-4">
         <p>Didn&apos;t Receive OTP?</p>
         <button
           onClick={handleResendOTP}

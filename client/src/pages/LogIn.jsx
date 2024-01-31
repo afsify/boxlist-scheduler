@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import * as jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { Button, Form, Input } from "antd";
 import { userPath } from "../routes/routeConfig";
@@ -52,13 +52,12 @@ function LogIn() {
 
   const responseMessage = async (response) => {
     try {
-      let credential = jwt_decode(response.credential);
+      let credential = jwtDecode(response.credential);
       const values = {
         name: credential.name,
         email: credential.email,
         password: credential.sub,
         exp: credential.exp,
-        image: credential.picture,
       };
       dispatch(showLoading());
       const loginResponse = await userLogin(values);
@@ -100,8 +99,8 @@ function LogIn() {
 
   return (
     <AuthCard>
-      <h2 className="font-bold text-3xl text-dark-purple">Login</h2>
-      <p className="text-sm mt-3 text-dark-purple">
+      <h2 className="font-bold text-3xl text-pine-green">Login</h2>
+      <p className="text-sm mt-3 text-pine-green">
         If you are already a member, easily log in
       </p>
       <Form rm className="flex flex-col mt-3" onFinish={onFinish}>
@@ -134,7 +133,7 @@ function LogIn() {
         </Form.Item>
         <Button
           size="large"
-          className="text-white font-semibold hover:scale-105 duration-300"
+          className="font-semibold hover:scale-105 bg-pine-green duration-300"
           htmlType="submit"
         >
           Login
@@ -148,7 +147,7 @@ function LogIn() {
       <div className="flex justify-center items-center mt-5">
         <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
       </div>
-      <div className="mt-3 text-sm flex justify-center items-center text-dark-purple py-4">
+      <div className="mt-3 text-sm flex justify-center items-center text-pine-green py-4">
         <p>Don&apos;t have an account?</p>
         <Link
           to={userPath.register}
@@ -157,10 +156,10 @@ function LogIn() {
           Register
         </Link>
       </div>
-      <div className="text-sm flex justify-center items-center text-dark-purple">
+      <div className="text-sm flex justify-center items-center text-pine-green">
         <Link
           to={userPath.forgotPassword}
-          className="text-dark-purple hover:text-blue-500 hover:underline"
+          className="text-pine-green hover:text-blue-500 hover:underline"
         >
           Forgot your password?
         </Link>

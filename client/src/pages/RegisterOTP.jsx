@@ -87,8 +87,8 @@ function RegisterOTP() {
 
   return (
     <AuthCard>
-      <h2 className="font-bold text-3xl text-dark-purple">Verification</h2>
-      <p className="text-sm mt-3 text-dark-purple">
+      <h2 className="font-bold text-3xl text-pine-green">Verification</h2>
+      <p className="text-sm mt-3 text-pine-green">
         OTP has been sent via email to{" "}
         <span className="font-semibold">{user?.email}</span>
       </p>
@@ -103,7 +103,7 @@ function RegisterOTP() {
         <p className="text-center text-sm">OR</p>
         <hr className="border-gray-400" />
       </div>
-      <div className="mt-5 text-sm flex justify-center items-center text-dark-purple">
+      <div className="mt-5 text-sm flex justify-center items-center text-pine-green">
         <p>Didn&apos;t Receive OTP?</p>
         <button
           onClick={handleResendOTP}

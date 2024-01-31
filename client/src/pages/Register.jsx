@@ -40,8 +40,8 @@ function Register() {
 
   return (
     <AuthCard>
-      <h2 className="font-bold text-3xl text-dark-purple">Register</h2>
-      <p className="text-sm mt-3 text-dark-purple">
+      <h2 className="font-bold text-3xl text-pine-green">Register</h2>
+      <p className="text-sm mt-3 text-pine-green">
         Create your free account and get started
       </p>
       <Form className="flex flex-col mt-3" onFinish={onFinish} form={form}>
@@ -99,7 +99,7 @@ function Register() {
         </Form.Item>
         <Button
           size="large"
-          className="text-white font-semibold hover:scale-105 duration-300"
+          className="bg-pine-green font-semibold hover:scale-105 duration-300"
           htmlType="submit"
         >
           Register
@@ -110,7 +110,7 @@ function Register() {
         <p className="text-center text-sm">OR</p>
         <hr className="border-gray-400" />
       </div>
-      <div className="mt-5 text-sm flex justify-center items-center text-dark-purple">
+      <div className="mt-5 text-sm flex justify-center items-center text-pine-green">
         <p>Already have an account?</p>
         <Link
           to={userPath.login}

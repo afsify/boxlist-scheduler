@@ -46,8 +46,8 @@ function ResetPassword() {
 
   return (
     <AuthCard>
-      <h2 className="font-bold text-3xl text-dark-purple">Reset Password</h2>
-      <p className="text-sm mt-3 text-dark-purple">
+      <h2 className="font-bold text-3xl text-pine-green">Reset Password</h2>
+      <p className="text-sm mt-3 text-pine-green">
         Set your new password for <span className="font-semibold">{email}</span>
       </p>
       <Form className="flex flex-col mt-3" onFinish={onFinish} form={form}>
@@ -78,7 +78,7 @@ function ResetPassword() {
         </Form.Item>
         <Button
           size="large"
-          className="text-white font-semibold hover:scale-105 duration-300"
+          className="bg-pine-green font-semibold hover:scale-105 duration-300"
           htmlType="submit"
         >
           Update
@@ -89,7 +89,7 @@ function ResetPassword() {
         <p className="text-center text-sm">OR</p>
         <hr className="border-gray-400" />
       </div>
-      <div className="mt-3 text-sm flex justify-center items-center text-dark-purple py-4">
+      <div className="mt-3 text-sm flex justify-center items-center text-pine-green py-4">
         <p>Don&apos;t have an account?</p>
         <Link
           to={userPath.register}

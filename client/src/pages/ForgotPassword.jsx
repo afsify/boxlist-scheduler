@@ -31,8 +31,8 @@ function ForgotPassword() {
 
   return (
     <AuthCard>
-      <h2 className="font-bold text-3xl text-dark-purple">Forgot Password</h2>
-      <p className="text-sm mt-3 text-dark-purple">
+      <h2 className="font-bold text-3xl text-pine-green">Forgot Password</h2>
+      <p className="text-sm mt-3 text-pine-green">
         Enter email to reset your password
       </p>
       <Form className="flex flex-col mt-3" onFinish={onFinish}>
@@ -50,7 +50,7 @@ function ForgotPassword() {
         </Form.Item>
         <Button
           size="large"
-          className="text-white font-semibold hover:scale-105 duration-300"
+          className="bg-pine-green font-semibold hover:scale-105 duration-300"
           htmlType="submit"
         >
           Submit
@@ -61,7 +61,7 @@ function ForgotPassword() {
         <p className="text-center text-sm">OR</p>
         <hr className="border-gray-400" />
       </div>
-      <div className="mt-3 text-sm flex justify-center items-center text-dark-purple py-4">
+      <div className="mt-3 text-sm flex justify-center items-center text-pine-green py-4">
         <p>Don&apos;t have an account?</p>
         <Link
           to={userPath.register}
