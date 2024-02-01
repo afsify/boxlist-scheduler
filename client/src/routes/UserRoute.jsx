@@ -5,6 +5,7 @@ import PublicRoute from "../components/auth/PublicRoute";
 import PrivateRoute from "../components/auth/PrivateRoute";
 
 const Home = lazy(() => import("../pages/Home"));
+const MyList = lazy(() => import("../pages/MyList"));
 const LogIn = lazy(() => import("../pages/LogIn"));
 const Register = lazy(() => import("../pages/Register"));
 const ResetOTP = lazy(() => import("../pages/ResetOTP"));
@@ -25,6 +26,7 @@ function UserRoute() {
       </Route>
       <Route element={<PrivateRoute role={"user"} route={userPath.home} />}>
         <Route path={userPath.home} element={<Home />} />
+        <Route path={userPath.list} element={<MyList />} />
       </Route>
     </Routes>
   );
@@ -36,11 +38,11 @@ export default function UserRouteWithSuspense() {
       fallback={
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div className="relative h-24 w-24">
-            <div className="rounded-full h-24 w-24 border-t-4 border-t-blue-500 animate-spin absolute"></div>
+            <div className="rounded-full h-24 w-24 border-t-4 border-t-pine-green animate-spin absolute"></div>
             <div className="h-full w-full flex justify-center items-center">
-              <h1 className="text-blue-500 text-3xl font-mono font-extrabold">
-                &lt;/&gt;
-              </h1>
+              <div className=" animate-ping mt-2">
+                <div className="inline-block w-6 h-6 bg-pine-green rounded-sm mx-1"></div>
+              </div>
             </div>
           </div>
         </div>

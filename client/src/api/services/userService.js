@@ -31,3 +31,21 @@ export const checkOTP = (values) => {
 export const resetPassword = (values) => {
   return userAxiosInstance.post("/reset-password", values);
 };
+
+//? ============================================== Todo List ==============================================
+
+export const insertList = (values) => {
+  return userAxiosInstance.post("/insert-list", values);
+};
+
+export const getList = () => {
+  return userAxiosInstance.get("/get-list");
+};
+
+export const taskStatus = (listId, taskId, data) => {
+  return userAxiosInstance.put(`/task-status/${listId}/${taskId}`, data);
+};
+
+export const deleteList = (listId) => {
+  return userAxiosInstance.delete(`/delete-list/${listId}`);
+};

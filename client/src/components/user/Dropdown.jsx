@@ -5,7 +5,7 @@ import { userPath } from "../../routes/routeConfig";
 import { userActions } from "../../utils/userSlice";
 import imageLinks from "../../assets/images/imageLinks";
 import { useLocation, useNavigate } from "react-router-dom";
-import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import { UserOutlined, MenuOutlined, LogoutOutlined } from "@ant-design/icons";
 
 function Dropdown() {
   const menuRef = useRef();
@@ -14,7 +14,7 @@ function Dropdown() {
   const [open, setOpen] = useState(false);
   const [userData, setUserData] = useState(null);
   const logged = localStorage.getItem("userToken") !== null;
-  
+
   useEffect(() => {
     let handler = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -57,13 +57,13 @@ function Dropdown() {
         <div
           className={`${
             open ? "block" : "hidden"
-          } absolute top-0 left-0 z-50 mt-16 w-48 p-4 text-pine-green shadow-md shadow-black rounded-lg`}
+          } absolute top-0 left-0 z-50 mt-16 w-48 p-4 text-gray-100 shadow-md bg-pine-green shadow-black rounded-lg`}
           ref={menuRef}
         >
-          <h3 className="text-center text-lg uppercase font-semibold text-gray-400">
+          <h3 className="text-center text-lg uppercase font-semibold text-gray-200">
             <span>{userData.name}</span>
             <br />
-            <span className="text-sm font-normal normal-case font-sans text-gray-500">
+            <span className="text-sm font-normal normal-case font-sans text-gray-300">
               {userData.email}
             </span>
           </h3>
@@ -72,6 +72,11 @@ function Dropdown() {
               text="Home"
               icon={<UserOutlined />}
               path={userPath.home}
+            />
+            <DropdownItem
+              text="My List"
+              icon={<MenuOutlined />}
+              path={userPath.list}
             />
             <li
               onClick={() => {
@@ -102,8 +107,8 @@ function DropdownItem({ text, icon, path }) {
     <li
       onClick={() => navigate(path)}
       className={`${
-        isActive && "bg-light-green text-pine-green font-bold"
-      } flex items-center cursor-pointer px-2 py-1 hover:bg-light-green hover:text-pine-green rounded-md space-x-2`}
+        isActive && "bg-light-green text-[#005749] font-bold"
+      } flex items-center cursor-pointer px-2 py-1 hover:bg-light-green hover:text-green-500 rounded-md space-x-2`}
     >
       {icon}
       <span className="font-medium hover:text-dark-purple">{text}</span>
