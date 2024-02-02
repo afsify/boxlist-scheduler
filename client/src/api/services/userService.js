@@ -46,6 +46,18 @@ export const taskStatus = (listId, taskId, data) => {
   return userAxiosInstance.put(`/task-status/${listId}/${taskId}`, data);
 };
 
+export const editTask = (listId, taskId, data) => {
+  return userAxiosInstance.put(`/edit-task/${listId}/${taskId}`, data);
+};
+
+export const deleteTask = (listId, taskId) => {
+  return userAxiosInstance.delete(`/delete-task/${listId}/${taskId}`);
+};
+
+export const insertTask = (listId, data) => {
+  return userAxiosInstance.post(`/insert-task/${listId}`, data);
+};
+
 export const deleteList = (listId) => {
   return userAxiosInstance.delete(`/delete-list/${listId}`);
 };

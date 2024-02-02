@@ -120,7 +120,7 @@ const Home = () => {
 
   return (
     <Fragment>
-      <div className="flex justify-start p-4">
+      <div className="fixed top-4 left-4 z-50">
         <Dropdown />
       </div>
       <div className="max-w-xl mx-auto pt-10 p-4">
