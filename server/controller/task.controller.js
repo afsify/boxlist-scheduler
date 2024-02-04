@@ -4,7 +4,7 @@ const taskModel = require("../model/task.model");
 
 const insertList = async (req, res, next) => {
   try {
-    const { date, list } = req.body;
+    const { name, date, list } = req.body;
     const user = req.userId;
     const taskExists = await taskModel.findOne({ user, date });
     if (taskExists) {
@@ -15,6 +15,7 @@ const insertList = async (req, res, next) => {
     }
     const newTask = new taskModel({
       user,
+      name,
       date,
       list,
     });
@@ -41,24 +42,6 @@ const getList = async (req, res, next) => {
       success: true,
       data: lists,
     });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Error Occurred" });
-    next(error);
-  }
-};
-
-//! ============================================ Delete List ============================================
-
-const deleteList = async (req, res, next) => {
-  try {
-    const listId = req.params.listId;
-    const list = await taskModel.findOneAndDelete({ _id: listId });
-    if (!list) {
-      return res
-        .status(404)
-        .json({ success: false, message: "List not found" });
-    }
-    res.status(200).json({ success: true, message: "List Deleted" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Error Occurred" });
     next(error);
@@ -167,12 +150,58 @@ const insertTask = async (req, res, next) => {
   }
 };
 
+//! ============================================= Edit List =============================================
+
+const editList = async (req, res, next) => {
+  try {
+    const { listId } = req.params;
+    const { name, date } = req.body;
+    const updatedList = await taskModel.findByIdAndUpdate(
+      listId,
+      { name, date },
+      { new: true }
+    );
+    if (!updatedList) {
+      return res
+        .status(404)
+        .json({ success: false, message: "List Not Found" });
+    }
+    res.status(200).json({
+      success: true,
+      message: "List Updated",
+      data: updatedList,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error Occurred" });
+    next(error);
+  }
+};
+
+//! ============================================ Delete List ============================================
+
+const deleteList = async (req, res, next) => {
+  try {
+    const listId = req.params.listId;
+    const list = await taskModel.findOneAndDelete({ _id: listId });
+    if (!list) {
+      return res
+        .status(404)
+        .json({ success: false, message: "List not found" });
+    }
+    res.status(200).json({ success: true, message: "List Deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error Occurred" });
+    next(error);
+  }
+};
+
 module.exports = {
   insertList,
   getList,
-  deleteList,
   taskStatus,
   editTask,
   deleteTask,
   insertTask,
+  editList,
+  deleteList,
 };

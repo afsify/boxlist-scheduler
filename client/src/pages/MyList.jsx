@@ -13,10 +13,12 @@ import {
   Select,
   Checkbox,
   TimePicker,
+  DatePicker,
 } from "antd";
 import {
   getList,
   editTask,
+  editList,
   deleteList,
   taskStatus,
   deleteTask,
@@ -28,6 +30,8 @@ import {
   CheckOutlined,
   CloseOutlined,
   DeleteOutlined,
+  SearchOutlined,
+  CloseCircleOutlined,
 } from "@ant-design/icons";
 
 const { Option } = Select;
@@ -35,12 +39,16 @@ const { Option } = Select;
 const MyList = () => {
   const dispatch = useDispatch();
   const [lists, setLists] = useState([]);
+  const [newTask, setNewTask] = useState("");
+  const [searchText, setSearchText] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const [editedTask, setEditedTask] = useState("");
-  const [editedTime, setEditedTime] = useState(null);
-  const [newTask, setNewTask] = useState("");
-  const [newTaskTime, setNewTaskTime] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
+  const [editedTime, setEditedTime] = useState(null);
+  const [newTaskTime, setNewTaskTime] = useState(null);
+  const [editedListId, setEditedListId] = useState(null);
+  const [editedListName, setEditedListName] = useState("");
+  const [editedListDate, setEditedListDate] = useState(null);
 
   useEffect(() => {
     fetchLists();
@@ -156,6 +164,7 @@ const MyList = () => {
       okText: "Yes",
       okButtonProps: { style: { background: "#01796F" } },
       cancelText: "No",
+      centered: true,
       onOk: () => handleDeleteTask(listId, taskId),
     });
   };
@@ -211,6 +220,7 @@ const MyList = () => {
       okText: "Yes",
       okButtonProps: { style: { background: "#01796F" } },
       cancelText: "No",
+      centered: true,
       onOk: () => handleDelete(listId),
     });
   };
@@ -219,24 +229,78 @@ const MyList = () => {
     setSortOrder(order);
   };
 
-  const sortedLists = lists.map((list) => ({
-    ...list,
-    list: [...list.list].sort((a, b) => {
-      const timeA = moment(a.time);
-      const timeB = moment(b.time);
+  const handleSearch = (value) => {
+    setSearchText(value);
+  };
 
-      if (sortOrder === "asc") {
-        return timeA - timeB;
-      } else {
-        return timeB - timeA;
-      }
-    }),
-  }));
+  const filteredLists = lists
+    .filter((list) =>
+      list.name.toLowerCase().includes(searchText.toLowerCase())
+    )
+    .map((list) => ({
+      ...list,
+      list: [...list.list].sort((a, b) => {
+        const timeA = moment(a.time);
+        const timeB = moment(b.time);
+
+        if (sortOrder === "asc") {
+          return timeA - timeB;
+        } else {
+          return timeB - timeA;
+        }
+      }),
+    }));
 
   const sortOptions = [
     { label: "Time (Asc)", value: "asc" },
     { label: "Time (Dec)", value: "dec" },
   ];
+
+  const startListEditing = (listId, listName, listDate) => {
+    setEditedListId(listId);
+    setEditedListName(listName);
+    setEditedListDate(moment(listDate));
+  };
+
+  const cancelListEditing = () => {
+    setEditedListId(null);
+    setEditedListName("");
+    setEditedListDate(null);
+  };
+
+  const disabledDate = (current) => {
+    const formattedCurrent = current.format("YYYY-MM-DD");
+    const isInPast = current.isBefore(moment(), "day");
+    const isDateInList = lists.some(
+      (task) =>
+        task.date && moment(task.date).format("YYYY-MM-DD") === formattedCurrent
+    );
+    return isInPast || isDateInList;
+  };
+
+  const updateList = async () => {
+    if (editedListId !== null) {
+      try {
+        dispatch(showLoading());
+        const response = await editList(editedListId, {
+          name: editedListName,
+          date: editedListDate,
+        });
+        dispatch(hideLoading());
+        if (response.data.success) {
+          setEditedListId(null);
+          fetchLists();
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        dispatch(hideLoading());
+        console.error(error);
+        toast.error("Something went wrong");
+      }
+    }
+  };
 
   return (
     <Fragment>
@@ -247,7 +311,7 @@ const MyList = () => {
         <h1 className="text-3xl font-bold text-pine-green text-center">
           My List
         </h1>
-        <div className="flex justify-center mt-3 mb-4">
+        <div className="flex justify-between mt-3 mb-4">
           <Select
             defaultValue={sortOrder}
             style={{ width: 110 }}
@@ -259,14 +323,81 @@ const MyList = () => {
               </Option>
             ))}
           </Select>
+          <Input
+            placeholder="Search List"
+            value={searchText}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="rounded-md w-44"
+            prefix={
+              <SearchOutlined
+                style={{ color: "#00b96b", marginRight: "5px" }}
+              />
+            }
+            suffix={
+              searchText && (
+                <CloseCircleOutlined
+                  style={{ color: "#00b96b", cursor: "pointer" }}
+                  onClick={() => setSearchText("")}
+                />
+              )
+            }
+          />
         </div>
         <List
           grid={{ gutter: 16, column: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 }}
-          dataSource={sortedLists}
+          dataSource={filteredLists}
           renderItem={(item, index) => (
             <List.Item>
               <Card
-                title={moment(item.date).format("MMMM DD, YYYY")}
+                title={
+                  editedListId !== item._id ? (
+                    <div className="flex justify-between items-center">
+                      <div>
+                        {`${moment(item?.date).format("MMMM DD, YYYY")} - ${
+                          item?.name
+                        }`}
+                      </div>
+                      <Button
+                        size="large"
+                        type="text"
+                        icon={<EditOutlined />}
+                        onClick={() =>
+                          startListEditing(item._id, item.name, item.date)
+                        }
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex ">
+                      <DatePicker
+                        size="large"
+                        format="YYYY-MM-DD"
+                        onChange={(date) => setEditedListDate(date)}
+                        className="mr-2"
+                        disabledDate={disabledDate}
+                      />
+                      <Input
+                        size="large"
+                        placeholder="Edit Name"
+                        value={editedListName}
+                        onChange={(e) => setEditedListName(e.target.value)}
+                        className="mr-2"
+                      />
+                      <Button
+                        size="large"
+                        shape="circle"
+                        className="mr-1"
+                        onClick={updateList}
+                        icon={<CheckOutlined />}
+                      ></Button>
+                      <Button
+                        size="large"
+                        shape="circle"
+                        onClick={cancelListEditing}
+                        icon={<CloseOutlined />}
+                      ></Button>
+                    </div>
+                  )
+                }
                 actions={[
                   <Button
                     key={index + 1}
@@ -292,12 +423,14 @@ const MyList = () => {
                       editIndex.taskId === task._id ? (
                         <Fragment>
                           <TimePicker
+                            size="large"
                             format="h:mm a"
                             value={editedTime}
                             onChange={(time) => setEditedTime(time)}
                             className="mr-2"
                           />
                           <Input
+                            size="large"
                             placeholder="Edit Task"
                             value={editedTask}
                             onChange={(e) => setEditedTask(e.target.value)}
@@ -305,12 +438,14 @@ const MyList = () => {
                             className="mr-2"
                           />
                           <Button
+                            size="large"
                             shape="circle"
                             className="mr-1"
                             onClick={updateTask}
                             icon={<CheckOutlined />}
                           ></Button>
                           <Button
+                            size="large"
                             shape="circle"
                             onClick={cancelEditing}
                             icon={<CloseOutlined />}
@@ -327,6 +462,7 @@ const MyList = () => {
                     </div>
                     <div className="ml-4 space-x-2">
                       <Button
+                        size="large"
                         type="text"
                         icon={<DeleteOutlined />}
                         onClick={() =>
@@ -335,6 +471,7 @@ const MyList = () => {
                       />
                       {!editIndex && (
                         <Button
+                          size="large"
                           type="text"
                           icon={<EditOutlined />}
                           onClick={() =>
@@ -350,20 +487,23 @@ const MyList = () => {
                     </div>
                   </div>
                 ))}
-                <div className="flex items-center justify-center mt-4">
+                <div className="flex items-center justify-center mt-5">
                   <TimePicker
+                    size="large"
                     format="h:mm a"
                     value={newTaskTime}
                     onChange={(time) => setNewTaskTime(time)}
                     className="mr-2"
                   />
                   <Input
+                    size="large"
                     placeholder="New Task"
                     value={newTask}
                     onChange={(e) => setNewTask(e.target.value)}
                     className="mr-2"
                   />
                   <Button
+                    size="large"
                     shape="circle"
                     onClick={() => handleInsertNewTask(item._id)}
                     icon={<PlusOutlined />}

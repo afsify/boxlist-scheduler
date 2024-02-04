@@ -25,7 +25,6 @@ function generateSixDigitOTP() {
 const sendOTP = async (req, res, next) => {
   try {
     otp = generateSixDigitOTP();
-    console.log(otp);
     const user = await userModel.findOne({ email: req.body.email });
     if (!user) {
       var mailOptions = {

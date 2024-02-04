@@ -1,9 +1,12 @@
+import moment from "moment";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { userPath } from "../routes/routeConfig";
 import Dropdown from "../components/user/Dropdown";
 import { Fragment, useEffect, useState } from "react";
 import { hideLoading, showLoading } from "../utils/alertSlice";
-import { getUser, insertList } from "../api/services/userService";
+import { getList, getUser, insertList } from "../api/services/userService";
 import {
   PlusOutlined,
   EditOutlined,
@@ -24,9 +27,13 @@ import {
 const Home = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [list, setList] = useState([]);
+  const [name, setName] = useState("");
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [taskTime, setTaskTime] = useState(null);
+  const [editIndex, setEditIndex] = useState(null);
   const logged = localStorage.getItem("userToken") !== null;
 
   useEffect(() => {
@@ -65,8 +72,6 @@ const Home = () => {
     setTasks(updatedTasks);
   };
 
-  const [editIndex, setEditIndex] = useState(null);
-
   const startEditing = (index) => {
     setNewTask(tasks[index].task);
     setTaskTime(tasks[index].time);
@@ -92,22 +97,54 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    fetchListCount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchListCount = async () => {
+    try {
+      const response = await getList();
+      if (response.data.success) {
+        const count = response.data.data.length;
+        const data = response.data.data;
+        let defaultName = `List ${count + 1}`;
+        setName(defaultName);
+        setList(data);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    }
+  };
+
   const onFinish = async () => {
     try {
+      if (tasks.length === 0) {
+        toast.error("Add at least one task");
+        return;
+      }
       dispatch(showLoading());
       const list = tasks.map((task) => ({
         title: task.task,
         time: task.time,
         completed: task.completed,
       }));
-      const date = form.getFieldValue("date");
-      const formData = { date, list };
+      let date = form.getFieldValue("date");
+      if (!date) {
+        date = moment();
+        form.setFieldsValue({ date });
+      }
+      const formattedDate = date.format("YYYY-MM-DD");
+      const formData = { name, date: formattedDate, list };
       const response = await insertList(formData);
       dispatch(hideLoading());
       if (response.data.success) {
-        const newList = response.data.data;
-        setTasks([...tasks, newList]);
+        form.resetFields();
         toast.success(response.data.message);
+        navigate(userPath.list);
       } else {
         toast.error(response.data.message);
       }
@@ -116,6 +153,16 @@ const Home = () => {
       console.error(error);
       toast.error("Something went wrong");
     }
+  };
+
+  const disabledDate = (current) => {
+    const formattedCurrent = current.format("YYYY-MM-DD");
+    const isInPast = current.isBefore(moment(), "day");
+    const isDateInList = list.some(
+      (task) =>
+        task.date && moment(task.date).format("YYYY-MM-DD") === formattedCurrent
+    );
+    return isInPast || isDateInList;
   };
 
   return (
@@ -132,6 +179,7 @@ const Home = () => {
             placeholder="Select Date"
             format="YYYY-MM-DD"
             onChange={(date) => form.setFieldsValue({ date })}
+            disabledDate={disabledDate}
           />
         </div>
         <Form form={form} onFinish={onFinish}>
@@ -222,7 +270,12 @@ const Home = () => {
             />
           </div>
           <div className="mt-4 flex justify-center">
-            <Button size="large" className="bg-pine-green w-full" htmlType="submit">
+            <Button
+              size="large"
+              className="bg-pine-green w-full"
+              htmlType="submit"
+              disabled={tasks.length === 0}
+            >
               Submit List
             </Button>
           </div>

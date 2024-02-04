@@ -21,10 +21,11 @@ user_router.post("/reset-password", userController.resetPassword);
 
 user_router.post("/insert-list", userAuth, taskController.insertList);
 user_router.get("/get-list", userAuth, taskController.getList);
-user_router.delete("/delete-list/:listId", userAuth, taskController.deleteList);
 user_router.put("/task-status/:listId/:taskId", userAuth, taskController.taskStatus);
 user_router.put("/edit-task/:listId/:taskId", userAuth, taskController.editTask);
 user_router.post("/insert-task/:listId", userAuth, taskController.insertTask);
 user_router.delete("/delete-task/:listId/:taskId", userAuth, taskController.deleteTask);
+user_router.put("/edit-list/:listId", userAuth, taskController.editList);
+user_router.delete("/delete-list/:listId", userAuth, taskController.deleteList);
 
 module.exports = user_router;

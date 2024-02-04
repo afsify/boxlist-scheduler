@@ -58,6 +58,10 @@ export const insertTask = (listId, data) => {
   return userAxiosInstance.post(`/insert-task/${listId}`, data);
 };
 
+export const editList = (listId, data) => {
+  return userAxiosInstance.put(`/edit-list/${listId}`, data);
+};
+
 export const deleteList = (listId) => {
   return userAxiosInstance.delete(`/delete-list/${listId}`);
 };
