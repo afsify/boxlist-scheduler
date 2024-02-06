@@ -353,9 +353,10 @@ const MyList = () => {
                   editedListId !== item._id ? (
                     <div className="flex justify-between items-center">
                       <div>
-                        {`${moment(item?.date).format("MMMM DD, YYYY")} - ${
-                          item?.name
-                        }`}
+                        {`${moment(item?.date).format("MMMM DD, YYYY")} - `}
+                        <span className="font-semibold capitalize">
+                          {item?.name}
+                        </span>
                       </div>
                       <Button
                         size="large"
@@ -380,6 +381,7 @@ const MyList = () => {
                         placeholder="Edit Name"
                         value={editedListName}
                         onChange={(e) => setEditedListName(e.target.value)}
+                        onPressEnter={updateList}
                         className="mr-2"
                       />
                       <Button
@@ -454,9 +456,12 @@ const MyList = () => {
                       ) : (
                         <div className="ml-3">
                           <p className="text-sm text-gray-600">
-                            { task.time !== null && moment(task?.time).format("h:mm a") }
+                            {task.time !== null &&
+                              moment(task?.time).format("h:mm a")}
                           </p>
-                          <strong className="text-lg ml-1">{task.title}</strong>
+                          <strong className="text-lg ml-1 capitalize">
+                            {task.title}
+                          </strong>
                         </div>
                       )}
                     </div>
