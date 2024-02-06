@@ -454,7 +454,7 @@ const MyList = () => {
                       ) : (
                         <div className="ml-3">
                           <p className="text-sm text-gray-600">
-                            {moment(task.time).format("h:mm a")}
+                            { task.time !== null && moment(task?.time).format("h:mm a") }
                           </p>
                           <strong className="text-lg ml-1">{task.title}</strong>
                         </div>

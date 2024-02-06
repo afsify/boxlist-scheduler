@@ -17,6 +17,7 @@ import {
 import {
   Form,
   List,
+  Radio,
   Input,
   Button,
   Checkbox,
@@ -34,6 +35,7 @@ const Home = () => {
   const [newTask, setNewTask] = useState("");
   const [taskTime, setTaskTime] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
+  const [includeTime, setIncludeTime] = useState(true);
   const logged = localStorage.getItem("userToken") !== null;
 
   useEffect(() => {
@@ -54,11 +56,37 @@ const Home = () => {
   }, [logged]);
 
   const addTask = () => {
-    if (newTask.trim() !== "" && taskTime) {
-      setTasks([...tasks, { task: newTask, time: taskTime, completed: false }]);
+    if (newTask.trim() !== "") {
+      if (includeTime && taskTime !== null) {
+        setTasks([
+          ...tasks,
+          {
+            task: newTask,
+            time: taskTime,
+            completed: false,
+          },
+        ]);
+      } else if (!includeTime) {
+        setTasks([
+          ...tasks,
+          {
+            task: newTask,
+            time: null,
+            completed: false,
+          },
+        ]);
+      } else {
+        toast.error("Please Select Time");
+        return;
+      }
       setNewTask("");
       setTaskTime(null);
     }
+  };
+
+  const handleIncludeTimeChange = (e) => {
+    setIncludeTime(e.target.value);
+    setTaskTime(null);
   };
 
   const removeTask = (index) => {
@@ -174,13 +202,21 @@ const Home = () => {
         <h1 className="text-3xl font-bold text-pine-green mb-2 text-center">
           Todo List
         </h1>
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-4 gap-x-4">
           <DatePicker
             placeholder="Select Date"
             format="YYYY-MM-DD"
             onChange={(date) => form.setFieldsValue({ date })}
             disabledDate={disabledDate}
           />
+          <Radio.Group
+            value={includeTime}
+            disabled={tasks.length > 0}
+            onChange={handleIncludeTimeChange}
+          >
+            <Radio.Button value={true}>Timed</Radio.Button>
+            <Radio.Button value={false}>Untimed</Radio.Button>
+          </Radio.Group>
         </div>
         <Form form={form} onFinish={onFinish}>
           <div className="flex items-center justify-center mb-4">
@@ -189,6 +225,7 @@ const Home = () => {
               value={taskTime}
               onChange={(time) => setTaskTime(time)}
               className="mr-2 py-2"
+              disabled={!includeTime}
             />
             <Input
               placeholder="New Task"
@@ -231,7 +268,7 @@ const Home = () => {
                       />
                     ) : null,
                   ]}
-                  className="border-b capitalize"
+                  className="border-b"
                 >
                   {editIndex === index ? (
                     <Fragment>
@@ -261,9 +298,12 @@ const Home = () => {
                       ></Button>
                     </Fragment>
                   ) : (
-                    <Fragment>
-                      {item.time && item.time.format("h:mm A")} - {item.task}
-                    </Fragment>
+                    <div>
+                      {item.time && item.time.format("h:mm a") + ` - `}
+                      <span className="capitalize font-semibold">
+                        {item.task}
+                      </span>
+                    </div>
                   )}
                 </List.Item>
               )}
