@@ -23,10 +23,10 @@ function UserRoute() {
         <Route path={userPath.registerOTP} element={<RegisterOTP />} />
         <Route path={userPath.resetPassword} element={<ResetPassword />} />
         <Route path={userPath.forgotPassword} element={<ForgotPassword />} />
-        <Route path={userPath.home} element={<Home />} />
-        <Route path={userPath.list} element={<MyList />} />
       </Route>
       <Route element={<PrivateRoute role={"user"} route={userPath.home} />}>
+        <Route path={userPath.home} element={<Home />} />
+        <Route path={userPath.list} element={<MyList />} />
       </Route>
     </Routes>
   );
