@@ -34,7 +34,7 @@ const sendOTP = async (req, res, next) => {
         html: `
         <html><body style="font-family: Arial, sans-serif; background-color: #f7f7f7; text-align: center;">
         <div style="max-width: 600px; margin: 0 auto; padding: 20px;"><img src=
-        "https://res.cloudinary.com/cloudverse/image/upload/v1695133216/CODEVERSE/ziiitlwjccfbp1ffbort.png"
+        "https://res.cloudinary.com/cloudverse/image/upload/v1695133216/CODEVERSE/logo.png"
         alt="Company Logo" width="150" style="display: block; margin: 0 auto;"/><h2 style="color: #333;
         font-weight: bold; margin-top: 20px;">Account Verification OTP</h2><p style="color: #777;">Welcome
         to our platform! To activate your account, please use the following One-Time Password (OTP) for
@@ -169,7 +169,7 @@ const forgotPassword = async (req, res, next) => {
         html: `
         <html><body style="font-family: Arial, sans-serif; background-color: #f7f7f7; text-align: center;">
         <div style="max-width: 600px; margin: 0 auto; padding: 20px;"><img src=
-        "https://res.cloudinary.com/cloudverse/image/upload/v1695133216/CODEVERSE/ziiitlwjccfbp1ffbort.png"
+        "https://res.cloudinary.com/cloudverse/image/upload/v1695133216/CODEVERSE/logo.png"
         alt="Company Logo" width="150" style="display: block; margin: 0 auto;"/><h2 style="color: #333;
         font-weight: bold; margin-top: 20px;">Password Reset OTP</h2><p style="color: #777;">You've requested
         a password reset for your account. Please use the following One-Time Password (OTP) to reset your
