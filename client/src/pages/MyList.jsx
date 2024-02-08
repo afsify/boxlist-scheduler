@@ -170,13 +170,19 @@ const MyList = () => {
   };
 
   const handleInsertNewTask = async (listId) => {
-    if (newTask.trim() !== "" && newTaskTime) {
+    if (newTask.trim() !== "") {
       try {
-        dispatch(showLoading());
-        const response = await insertTask(listId, {
+        const targetList = lists.find((list) => list._id === listId);
+        if (targetList && targetList.list[0]?.time !== null && !newTaskTime) {
+          toast.error("Please Select Time");
+          return;
+        }
+        const taskData = {
           title: newTask,
-          time: newTaskTime,
-        });
+          time: targetList?.list[0]?.time !== null ? newTaskTime : null,
+        };
+        dispatch(showLoading());
+        const response = await insertTask(listId, taskData);
         dispatch(hideLoading());
         if (response.data.success) {
           fetchLists();
@@ -374,6 +380,7 @@ const MyList = () => {
                         format="YYYY-MM-DD"
                         onChange={(date) => setEditedListDate(date)}
                         className="mr-2"
+                        value={editedListDate}
                         disabledDate={disabledDate}
                       />
                       <Input
@@ -424,13 +431,15 @@ const MyList = () => {
                       editIndex.listId === item._id &&
                       editIndex.taskId === task._id ? (
                         <Fragment>
-                          <TimePicker
-                            size="large"
-                            format="h:mm a"
-                            value={editedTime}
-                            onChange={(time) => setEditedTime(time)}
-                            className="mr-2"
-                          />
+                          {task.time !== null && (
+                            <TimePicker
+                              size="large"
+                              format="h:mm a"
+                              value={editedTime}
+                              onChange={(time) => setEditedTime(time)}
+                              className="mr-2"
+                            />
+                          )}
                           <Input
                             size="large"
                             placeholder="Edit Task"
@@ -493,13 +502,15 @@ const MyList = () => {
                   </div>
                 ))}
                 <div className="flex items-center justify-center mt-5">
-                  <TimePicker
-                    size="large"
-                    format="h:mm a"
-                    value={newTaskTime}
-                    onChange={(time) => setNewTaskTime(time)}
-                    className="mr-2"
-                  />
+                  {item?.list[0].time !== null && (
+                    <TimePicker
+                      size="large"
+                      format="h:mm a"
+                      value={newTaskTime}
+                      onChange={(time) => setNewTaskTime(time)}
+                      className="mr-2"
+                    />
+                  )}
                   <Input
                     size="large"
                     placeholder="New Task"

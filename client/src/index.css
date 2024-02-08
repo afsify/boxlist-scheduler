@@ -74,37 +74,49 @@ body {
   box-sizing: border-box;
 }
 
-.scrollable-container {
-  scrollbar-width: thin;
-  scroll-behavior: smooth;
-  scrollbar-color: #01796f #333333;
-  overflow: auto;
-}
-
-.scrollable-container::-webkit-scrollbar {
+/* For WebKit browsers (e.g., Chrome, Safari) */
+::-webkit-scrollbar {
   width: 3px;
-  height: 3px;
-  border-radius: 18px;
 }
 
-.scrollable-container::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background-color: #01796f;
-  border-radius: 18px;
-  min-width: 20px;
-  min-height: 20px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease-in-out;
 }
 
-.scrollable-container::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
   background-color: #005749;
 }
 
-.scrollable-container::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background-color: #333333;
-  border-radius: 18px;
+  border-radius: 10px;
 }
 
-.scrollable-container::-webkit-scrollbar-track:hover {
-  background-color: #292929;
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #01796f #333333;
+}
+
+*::-ms-scrollbar {
+  width: 3px;
+}
+
+*::-ms-scrollbar-thumb {
+  background-color: #01796f;
+  border-radius: 10px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+*::-ms-scrollbar-thumb:hover {
+  background-color: #005749;
+}
+
+*::-ms-scrollbar-track {
+  background-color: #333333;
+  border-radius: 10px;
 }
 
 input[type="text"]:focus ~ .input-text,
