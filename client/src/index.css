@@ -97,6 +97,7 @@ body {
 /* For Firefox */
 * {
   scrollbar-width: thin;
+  scroll-behavior: smooth;
   scrollbar-color: #01796f #333333;
 }
 
