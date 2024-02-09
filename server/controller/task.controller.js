@@ -1,9 +1,23 @@
+const { body, validationResult } = require("express-validator");
 const taskModel = require("../model/task.model");
 
 //! ============================================= Create List =============================================
 
+const insertListValidation = [
+  body("name").notEmpty().trim().escape(),
+  body("date").notEmpty().isISO8601().toDate(),
+  body("list").isArray(),
+];
+
 const insertList = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Input",
+      });
+    }
     const { name, date, list } = req.body;
     const user = req.userId;
     const taskExists = await taskModel.findOne({ user, date });
