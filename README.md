@@ -62,7 +62,6 @@ The live project can be accessed at [https://boxlist.vercel.app](https://boxlist
    JWT_SECRET = jwt-secret-code
    GMAIL_USER = smtp-gmail-email
    GMAIL_PASS = smtp-gmail-password
-   CLIENT_URL = react-frontend-url
    ```
 
 3. **Navigate to the client directory:**
