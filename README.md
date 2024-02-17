@@ -34,7 +34,7 @@ Welcome to the Boxlist Task Scheduler, your go-to solution for efficient task ma
 
 ## Access the live project
 
-The live project can be accessed at [https://boxlist.vercel.app](https://boxlist.vercel.app).
+The live project can be accessed at [https://boxlist.vercel.app](https://boxlist.vercel.app)
 
 ## Getting Started
 
@@ -52,7 +52,7 @@ The live project can be accessed at [https://boxlist.vercel.app](https://boxlist
 
    ```bash
    VITE_GOOGLE_ID = google-auth-id
-   VITE_USER_URL = user-base-url
+   VITE_USER_URL = user-backend-url
    ```
 
     **Server ENV**
@@ -90,7 +90,7 @@ The live project can be accessed at [https://boxlist.vercel.app](https://boxlist
     npm start
     ```
 
-    The client-side application will be running on [http://localhost:3000](http://localhost:3000).
+    The client-side application will be running on [http://localhost:3000](http://localhost:3000)
 
 7. **Navigate to the server directory:**
 
@@ -112,23 +112,23 @@ The live project can be accessed at [https://boxlist.vercel.app](https://boxlist
     npm start
     ```
 
-    The server will be running on [http://localhost:5000](http://localhost:5000).
+    The server will be running on [http://localhost:5000](http://localhost:5000)
 
 ## API Documentation
 
-Detailed API documentation can be found in the [Boxlist_API_Documentation.docx](https://docs.google.com/document/d/1nzRpx4PR1GwI0gRXVfB1jVrEdJIdeiIcbiveIp85Adk/edit?usp=sharing) file.
+Detailed API documentation can be found in the [Boxlist_API_Documentation.docx](https://docs.google.com/document/d/1nzRpx4PR1GwI0gRXVfB1jVrEdJIdeiIcbiveIp85Adk/edit?usp=sharing)
 
 ## Database Design
 
-The database design can be viewed in [Boxlist_DB_Design.pdf](https://drive.google.com/file/d/174SKFT73G0HnlmhA0bX2Z9ao6AWAmOQV/view?usp=sharing) file.
+The database design can be viewed in [Boxlist_DB_Design.pdf](https://drive.google.com/file/d/174SKFT73G0HnlmhA0bX2Z9ao6AWAmOQV/view?usp=sharing)
 
 ## Figma Prototype Design
 
-The Figma prototype design can be viewed [Boxlist_UI](https://www.figma.com/file/ILMxaQQtPixsABdngyfzNz/Boxlist_UI?type=design&node-id=0%3A1&mode=design&t=lz72ENLrzeATpjbq-1) file.
+The Figma prototype design can be viewed [Boxlist_UI](https://www.figma.com/file/ILMxaQQtPixsABdngyfzNz/Boxlist_UI?type=design&node-id=0%3A1&mode=design&t=lz72ENLrzeATpjbq-1)
 
 ## Module List
 
-The list of modules can be found in the [Boxlist_Modules.docx](https://docs.google.com/document/d/11DLIOvIYOaqL1Zl9RlKR1q0X3qDpsAmhBFzd20VDYr8/edit?usp=sharing) file.
+The list of modules can be found in the [Boxlist_Modules.docx](https://docs.google.com/document/d/11DLIOvIYOaqL1Zl9RlKR1q0X3qDpsAmhBFzd20VDYr8/edit?usp=sharing)
 
 ## Contributing
 
