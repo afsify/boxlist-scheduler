@@ -3,8 +3,8 @@ import UserRoute from "./routes/UserRoute";
 import { ConfigProvider, theme } from "antd";
 import Spinner from "./components/constant/Spinner";
 import Toaster from "./components/constant/Toaster";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Switcher from "./components/constant/Switcher";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
